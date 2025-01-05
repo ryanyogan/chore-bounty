@@ -1,0 +1,64 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  directUrl = env("DIRECT_URL")
+  url       = env("DATABASE_URL")
+}
+
+model User {
+  id           String    @id @default(cuid())
+  username     String    @unique
+  email        String    @unique
+  passwordHash String
+  sessions     Session[]
+  tickets      Chore[]
+  comments     Comment[]
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  userId    String
+  user      User     @relation(references: [id], fields: [userId], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model Chore {
+  id        String      @id @default(cuid())
+  title     String
+  content   String      @db.VarChar(1024)
+  status    ChoreStatus @default(NOT_STARTED)
+  deadline  String
+  bounty    Int
+  userId    String
+  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  comments  Comment[]
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+
+  @@index([userId])
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  content   String   @db.VarChar(1024)
+  chore     Chore    @relation(fields: [choreId], references: [id], onDelete: Cascade)
+  choreId   String
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  userId    String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([choreId])
+  @@index([userId])
+}
+
+enum ChoreStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  DONE
+}
