@@ -1,7 +1,9 @@
-import { notFound } from "next/navigation";
+import { Breadcrumbs } from "@/components/breadcrumbs";
 import { Separator } from "@/components/ui/separator";
-import { getChore } from "@/features/chore/queries/get-chore";
 import { ChoreItem } from "@/features/chore/components/chore-item";
+import { getChore } from "@/features/chore/queries/get-chore";
+import { homePath } from "@/paths";
+import { notFound } from "next/navigation";
 
 type ChorePageProps = {
   params: Promise<{
@@ -21,13 +23,13 @@ export default async function TicketPage(props: ChorePageProps) {
 
   return (
     <div className="flex-1 flex flex-col gap-y-8">
-      {/* <Breadcrumbs
+      <Breadcrumbs
         breadcrumbs={[
-          { title: "Tickets", href: homePath() },
-          { title: ticket.title },
+          { title: "Chores", href: homePath },
+          { title: chore.title },
         ]}
       />
- */}
+
       <Separator />
 
       <div className="flex justify-center animate-fade-from-top">
