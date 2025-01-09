@@ -1,3 +1,4 @@
+import { Placeholder } from "@/components/placeholder";
 import { getChores } from "../queries/get-chores";
 import { ChoreItem } from "./chore-item";
 
@@ -36,8 +37,7 @@ export async function ChoreList(props: ChoreListProps) {
       {chores.length ? (
         chores.map((chore) => <ChoreItem key={chore.id} chore={chore} />)
       ) : (
-        <p>Pleace Holder</p>
-        // <Placeholder label="No tickets found" />
+        <Placeholder label="No chores found!" />
       )}
 
       <div className="w-full max-w-[420px]">

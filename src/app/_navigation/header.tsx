@@ -6,6 +6,7 @@ import { signInPath, signUpPath } from "@/paths";
 import { LucideKanban } from "lucide-react";
 import Link from "next/link";
 import { AccountDropdown } from "./account-dropdown";
+import { ThemeSwitcher } from "@/components/theme/theme-switcher";
 
 export function Header() {
   const { user, isFetched } = useAuth();
@@ -50,7 +51,10 @@ export function Header() {
           <h1 className="text-lg font-semibold">Chore Bounty</h1>
         </Link>
       </div>
-      <div className="flex align-items gap-x-2">{navItems}</div>
+      <div className="flex align-items gap-x-2">
+        <ThemeSwitcher />
+        {navItems}
+      </div>
     </nav>
   );
 }
