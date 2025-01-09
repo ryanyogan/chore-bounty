@@ -1,13 +1,13 @@
 "use client";
 
-import { usePathname } from "next/navigation";
-import { useState } from "react";
 import { useAuth } from "@/features/auth/hooks/use-auth";
 import { cn } from "@/lib/utils";
 import { signInPath, signUpPath } from "@/paths";
+import { getActivePath } from "@/utils/get-active-path";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
 import { navItems } from "../constants";
 import { SidebarItem } from "./sidebar-item";
-import { getActivePath } from "@/utils/get-active-path";
 
 export function Sidebar() {
   const { user, isFetched } = useAuth();
@@ -16,7 +16,7 @@ export function Sidebar() {
   const { activeIndex } = getActivePath(
     pathName,
     navItems.map((navItem) => navItem.href),
-    [signInPath, signUpPath],
+    [signInPath, signUpPath]
   );
 
   const [isTransition, setTransition] = useState(false);
@@ -29,7 +29,7 @@ export function Sidebar() {
   };
 
   if (!user || !isFetched) {
-    return <div className="w-[78px] bg-secondary/20" />;
+    return null;
   }
 
   return (
@@ -38,7 +38,7 @@ export function Sidebar() {
         "animate-sidebar-from-left",
         "h-screen border-r pt-24",
         isTransition && "duration-200",
-        isOpen ? "md:w-60 w-[78px]" : "w-[78px]",
+        isOpen ? "md:w-60 w-[78px]" : "w-[78px]"
       )}
       onMouseEnter={() => handleToggle(true)}
       onMouseLeave={() => handleToggle(false)}

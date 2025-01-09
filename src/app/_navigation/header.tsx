@@ -1,12 +1,12 @@
 "use client";
 
+import { ThemeSwitcher } from "@/components/theme/theme-switcher";
 import { buttonVariants } from "@/components/ui/button";
 import { useAuth } from "@/features/auth/hooks/use-auth";
-import { signInPath, signUpPath } from "@/paths";
+import { signInPath } from "@/paths";
 import { LucideKanban } from "lucide-react";
 import Link from "next/link";
 import { AccountDropdown } from "./account-dropdown";
-import { ThemeSwitcher } from "@/components/theme/theme-switcher";
 
 export function Header() {
   const { user, isFetched } = useAuth();
@@ -19,13 +19,6 @@ export function Header() {
     <AccountDropdown user={user} />
   ) : (
     <>
-      <Link
-        href={signUpPath}
-        className={buttonVariants({ variant: "outline" })}
-      >
-        Sign Up
-      </Link>
-
       <Link
         href={signInPath}
         className={buttonVariants({ variant: "default" })}
