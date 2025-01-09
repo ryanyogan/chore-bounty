@@ -29,7 +29,7 @@ export function Sidebar() {
   };
 
   if (!user || !isFetched) {
-    return null;
+    return <div className="w-[78px] bg-secondary/20" />;
   }
 
   return (
