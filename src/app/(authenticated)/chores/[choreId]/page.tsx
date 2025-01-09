@@ -2,6 +2,8 @@ import { Breadcrumbs } from "@/components/breadcrumbs";
 import { Separator } from "@/components/ui/separator";
 import { ChoreItem } from "@/features/chore/components/chore-item";
 import { getChore } from "@/features/chore/queries/get-chore";
+import { Comments } from "@/features/comment/components/comments";
+import { getComments } from "@/features/comment/queries/get-comments";
 import { homePath } from "@/paths";
 import { notFound } from "next/navigation";
 
@@ -14,8 +16,12 @@ type ChorePageProps = {
 export default async function TicketPage(props: ChorePageProps) {
   const { choreId } = await props.params;
   const ticketPromise = getChore(choreId);
+  const commentsPromise = getComments(choreId);
 
-  const [chore] = await Promise.all([ticketPromise]);
+  const [chore, paginatedComments] = await Promise.all([
+    ticketPromise,
+    commentsPromise,
+  ]);
 
   if (!chore) {
     notFound();
@@ -33,7 +39,16 @@ export default async function TicketPage(props: ChorePageProps) {
       <Separator />
 
       <div className="flex justify-center animate-fade-from-top">
-        <ChoreItem chore={chore} isDetail />
+        <ChoreItem
+          chore={chore}
+          isDetail
+          comments={
+            <Comments
+              choreId={chore.id}
+              paginatedComments={paginatedComments}
+            />
+          }
+        />
       </div>
     </div>
   );
