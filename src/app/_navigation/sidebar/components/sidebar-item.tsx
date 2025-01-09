@@ -5,6 +5,7 @@ import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { NavItem } from "../types";
 import { closedClassName } from "../constants";
+import { LucideLibrary } from "lucide-react";
 
 type SidebarItemProps = {
   isOpen: boolean;
@@ -13,6 +14,8 @@ type SidebarItemProps = {
 };
 
 export function SidebarItem(props: SidebarItemProps) {
+  const icon = props.navItem.icon ?? <LucideLibrary />;
+
   return (
     <>
       {props.navItem.separator && <Separator />}
@@ -24,7 +27,8 @@ export function SidebarItem(props: SidebarItemProps) {
           props.isActive && "bg-muted font-bold hover:bg-muted",
         )}
       >
-        {cloneElement(props.navItem.icon, {
+        {cloneElement(icon, {
+          // @ts-expect-error asdadad
           className: "h-5 w-5",
         })}
         <span
