@@ -8,12 +8,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { choreEditPath, chorePath } from "@/paths";
+import { toCurrencyFromCent } from "@/utils/currency";
 import clsx from "clsx";
 import { LucideArrowUpRightFromSquare, LucidePencil } from "lucide-react";
 import Link from "next/link";
 import { CHORE_ICONS } from "../constants";
 import type { ChoreWithMetadata } from "../types";
-import { choreEditPath, chorePath } from "@/paths";
 
 type ChoreItemProps = {
   chore: ChoreWithMetadata;
@@ -79,7 +80,7 @@ export function ChoreItem(props: ChoreItemProps) {
               {props.chore.deadline} by {props.chore.user.username}
             </p>
             <p className="text-sm text-muted-foreground">
-              {/* {toCurrencyFromCent(ticket.bounty)} */}
+              {toCurrencyFromCent(props.chore.bounty)}
             </p>
           </CardFooter>
         </Card>
