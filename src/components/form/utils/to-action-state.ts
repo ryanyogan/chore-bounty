@@ -1,6 +1,7 @@
 import { ZodError } from "zod";
 
-export type ActionState<T = unknown> = {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type ActionState<T = any> = {
   status?: "SUCCESS" | "ERROR";
   message: string;
   payload?: FormData;
