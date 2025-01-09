@@ -51,7 +51,7 @@ export function fromErrorToActionState(
 export function toActionState(
   status: ActionState["status"],
   message: string,
-  formData: FormData,
+  formData?: FormData,
   data?: unknown
 ): ActionState {
   return {

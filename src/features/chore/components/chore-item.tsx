@@ -11,10 +11,15 @@ import {
 import { choreEditPath, chorePath } from "@/paths";
 import { toCurrencyFromCent } from "@/utils/currency";
 import clsx from "clsx";
-import { LucideArrowUpRightFromSquare, LucidePencil } from "lucide-react";
+import {
+  LucideArrowUpRightFromSquare,
+  LucideMoreVertical,
+  LucidePencil,
+} from "lucide-react";
 import Link from "next/link";
 import { CHORE_ICONS } from "../constants";
 import type { ChoreWithMetadata } from "../types";
+import { ChoreMoreMenu } from "./chore-more-menu";
 
 type ChoreItemProps = {
   chore: ChoreWithMetadata;
@@ -40,15 +45,14 @@ export function ChoreItem(props: ChoreItemProps) {
   ) : null;
 
   const moreMenu = props.chore.isOwner ? (
-    // <TicketMoreMenu
-    //   ticket={ticket}
-    //   trigger={
-    //     <Button variant="outline" size="icon">
-    //       <LucideMoreVertical className="h-4 w-4" />
-    //     </Button>
-    //   }
-    // />
-    <p>more</p>
+    <ChoreMoreMenu
+      chore={props.chore}
+      trigger={
+        <Button variant="outline" size="icon">
+          <LucideMoreVertical className="h-4 w-4" />
+        </Button>
+      }
+    />
   ) : null;
 
   return (
@@ -62,7 +66,17 @@ export function ChoreItem(props: ChoreItemProps) {
         <Card className="w-full">
           <CardHeader>
             <CardTitle className="flex gap-x-2">
-              <span>{CHORE_ICONS[props.chore.status]}</span>
+              <span
+                className={
+                  props.chore.status === "DONE"
+                    ? "text-green-500"
+                    : props.chore.status === "IN_PROGRESS"
+                      ? "text-blue-500"
+                      : ""
+                }
+              >
+                {CHORE_ICONS[props.chore.status]}
+              </span>
               <span className="truncate">{props.chore.title}</span>
             </CardTitle>
           </CardHeader>
