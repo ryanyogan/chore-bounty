@@ -9,6 +9,9 @@ export async function getComments(choreId: string, cursor?: string) {
 
   const where = {
     choreId,
+    id: {
+      lt: cursor,
+    },
   };
 
   const take = 2;
@@ -29,14 +32,18 @@ export async function getComments(choreId: string, cursor?: string) {
     prisma.comment.count({ where }),
   ]);
 
+  const hasNextPage = comments.length > take;
+  const commentsAtCursor = hasNextPage ? comments.slice(0, -1) : comments;
+
   return {
-    list: comments.map((comment) => ({
+    list: commentsAtCursor.map((comment) => ({
       ...comment,
       isOwner: isOwner(auth.user, comment),
     })),
     metadata: {
       count,
-      cursor,
+      hasNextPage,
+      cursor: commentsAtCursor.at(-1)?.id,
     },
   };
 }
