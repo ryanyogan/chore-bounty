@@ -14,7 +14,7 @@ export async function getComments(choreId: string, cursor?: string) {
     },
   };
 
-  const take = 2;
+  const take = 20;
 
   const [comments, count] = await prisma.$transaction([
     prisma.comment.findMany({
