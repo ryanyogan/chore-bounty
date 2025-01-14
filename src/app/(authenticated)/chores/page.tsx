@@ -4,9 +4,13 @@ import { Spinner } from "@/components/spinner";
 import { getAuth } from "@/features/auth/queries/get-auth";
 import { ChoreList } from "@/features/chore/components/chore-list";
 import { ChoreUpsertForm } from "@/features/chore/components/chore-upsert-form";
+import { searchParamsCache } from "@/features/chore/search-params";
+import { SearchParams } from "nuqs";
 import { Suspense } from "react";
 
-export default async function ChoresPage() {
+export default async function ChoresPage(props: {
+  searchParams: Promise<SearchParams>;
+}) {
   const { user } = await getAuth();
 
   return (
@@ -21,7 +25,10 @@ export default async function ChoresPage() {
       />
 
       <Suspense fallback={<Spinner />}>
-        <ChoreList userId={user?.id} />
+        <ChoreList
+          searchParams={searchParamsCache.parse(await props.searchParams)}
+          userId={user?.id}
+        />
       </Suspense>
     </div>
   );
