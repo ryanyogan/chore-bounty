@@ -15,7 +15,7 @@ export async function ChoreList(props: ChoreListProps) {
   const choreQuery = await getChores(props.userId, props.searchParams);
 
   return (
-    <div className="flex-1 flex flex-col items-center gap-y-4 animate-fade-from-top">
+    <div className="flex-1 flex flex-col items-center gap-y-4">
       <div className="w-full max-w-[420px] flex gap-x-2">
         <ChoreSearchInput placeholder="Search chores ..." />
         <ChoreSortSelect

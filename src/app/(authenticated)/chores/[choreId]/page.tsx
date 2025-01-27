@@ -38,7 +38,7 @@ export default async function TicketPage(props: ChorePageProps) {
 
       <Separator />
 
-      <div className="flex justify-center animate-fade-from-top">
+      <div className="flex justify-center">
         <ChoreItem
           chore={chore}
           isDetail
