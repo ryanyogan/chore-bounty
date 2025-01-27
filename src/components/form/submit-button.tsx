@@ -17,6 +17,7 @@ type SubmitButtonProps = {
     | "ghost"
     | "link";
   size?: "default" | "sm" | "lg" | "icon";
+  ref?: React.Ref<HTMLButtonElement>;
 };
 
 export function SubmitButton(props: SubmitButtonProps) {
@@ -28,6 +29,7 @@ export function SubmitButton(props: SubmitButtonProps) {
       type="submit"
       variant={props.variant ?? "default"}
       size={props.size ?? "default"}
+      ref={props.ref}
     >
       {pending && (
         <LucideLoaderCircle

@@ -8,7 +8,7 @@ import {
   EMPTY_ACTION_STATE,
 } from "@/components/form/utils/to-action-state";
 import { Textarea } from "@/components/ui/textarea";
-import { useActionState } from "react";
+import { useActionState, useRef } from "react";
 import { createComment } from "../actions/create-comment";
 import type { CommentWithMetadata } from "../types";
 
@@ -18,7 +18,7 @@ type CommentCreateFormProps = {
 };
 
 export function CommentCreateForm(props: CommentCreateFormProps) {
-  const [actionState, action] = useActionState(
+  const [actionState, action, isPending] = useActionState(
     createComment.bind(null, props.choreId),
     EMPTY_ACTION_STATE
   );
@@ -27,14 +27,29 @@ export function CommentCreateForm(props: CommentCreateFormProps) {
     actionState: ActionState<CommentWithMetadata | undefined>
   ) => {
     props.onCreateComment?.(actionState.data);
+    textAreaRef.current?.focus();
   };
+
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   return (
     <Form action={action} actionState={actionState} onSuccess={handleSuccess}>
-      <Textarea name="content" placeholder="What's on your mind ..." />
+      <Textarea
+        ref={textAreaRef}
+        disabled={isPending}
+        onKeyDown={(event) => {
+          if (event.key === "Enter" && !event.shiftKey) {
+            event.preventDefault();
+            buttonRef.current?.click();
+          }
+        }}
+        name="content"
+        placeholder="What's on your mind ..."
+      />
       <FieldError actionState={actionState} name="content" />
 
-      <SubmitButton label="Comment" />
+      <SubmitButton ref={buttonRef} label="Comment" />
     </Form>
   );
 }
