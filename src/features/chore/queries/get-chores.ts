@@ -5,7 +5,7 @@ import { ParsedSearchParams } from "../search-params";
 
 export async function getChores(
   userId: string | undefined,
-  searchParams: ParsedSearchParams,
+  searchParams: ParsedSearchParams
 ) {
   const { user } = await getAuth();
 

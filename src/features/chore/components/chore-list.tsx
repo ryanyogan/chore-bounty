@@ -2,6 +2,7 @@ import { Placeholder } from "@/components/placeholder";
 import { getChores } from "../queries/get-chores";
 import { ParsedSearchParams } from "../search-params";
 import { ChoreItem } from "./chore-item";
+import { ChorePagination } from "./chore-pagination";
 import { ChoreSearchInput } from "./chore-search-input";
 import { ChoreSortSelect } from "./chore-sort-select";
 
@@ -11,7 +12,7 @@ type ChoreListProps = {
 };
 
 export async function ChoreList(props: ChoreListProps) {
-  const { list: chores } = await getChores(props.userId, props.searchParams);
+  const choreQuery = await getChores(props.userId, props.searchParams);
 
   return (
     <div className="flex-1 flex flex-col items-center gap-y-4 animate-fade-from-top">
@@ -38,14 +39,16 @@ export async function ChoreList(props: ChoreListProps) {
         />
       </div>
 
-      {chores.length ? (
-        chores.map((chore) => <ChoreItem key={chore.id} chore={chore} />)
+      {choreQuery.list.length ? (
+        choreQuery.list.map((chore) => (
+          <ChoreItem key={chore.id} chore={chore} />
+        ))
       ) : (
         <Placeholder label="No chores found!" />
       )}
 
       <div className="w-full max-w-[420px]">
-        {/* <TicketPagination paginatedTicketMetadata={ticketMetadata} /> */}
+        <ChorePagination paginatedChoreMetadata={choreQuery.metadata} />
       </div>
     </div>
   );
